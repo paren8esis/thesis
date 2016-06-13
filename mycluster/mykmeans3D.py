@@ -3,6 +3,7 @@
 import numpy as np
 import random
 from scipy.spatial import distance
+from sympy import floor
 
 import matplotlib.pyplot as plt
 
