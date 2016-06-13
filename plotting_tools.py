@@ -1302,8 +1302,9 @@ def plot_surface(n_clusters, centroids):
     ax.set_zlabel('gene expression')
 
 
-def plot_contour(n_clusters, centroids, xlabels=None, plot_before=False,
-                 figsize=(17.075, 8.1125), filename=None, dpi=150):
+def plot_contour(n_clusters, centroids, mode, xlabels=None, plot_before=False,
+                 figsize=(17.075, 8.1125), filename=None, dpi=150,
+                 fontsize=8):
     """
     Creates a contour plot from the centroids of the clusters. Before the
     plotting, it finds a proper ordering of the centoids,
@@ -1315,6 +1316,8 @@ def plot_contour(n_clusters, centroids, xlabels=None, plot_before=False,
         The number of clusters.
     centroids : ndarray
         The centroids of the clusters.
+    mode : (0, 1, 2)
+        The axis along which the clustering was done.
     xlabels : list of str, default None
         The labels of the x axis. If None given, numbers are plotted.
     plot_before : bool, default False
@@ -1326,6 +1329,8 @@ def plot_contour(n_clusters, centroids, xlabels=None, plot_before=False,
     dpi : int, default 150
         The dpi quality of the final plot (Applies only when plot is saved in
         file)
+    fontsize : int, default 8
+        The size of the fonts in the plot
     """
     if (plot_before):
         figurename = "Contour plot for n_clusters=" + str(n_clusters) + " before ordering"
@@ -1337,18 +1342,23 @@ def plot_contour(n_clusters, centroids, xlabels=None, plot_before=False,
         plt.colorbar(cset)
         # Also cmap="viridis" or cmap=plt.cm.jet look nice
 
-        plt.xlabel('samples')
+        if (mode == 0) or (mode == 1):
+            plt.xlabel('samples')
+        else:
+            plt.xlabel('genes')
         plt.ylabel('clusters')
 
         if (xlabels is not None):
-            plt.xticks(range(centroids.shape[1]), xlabels, fontsize=8, rotation=25)
+            plt.xticks(range(centroids.shape[1]), xlabels, fontsize=fontsize,
+                       rotation=25)
         else:
-            plt.xticks(range(centroids.shape[1]), ["|"] * centroids.shape[1])
+            plt.xticks(range(centroids.shape[1]),
+                       range(1, centroids.shape[1]+1), fontsize=fontsize)
 
         if (n_clusters <= 100):
-            plt.yticks(range(n_clusters), range(n_clusters), fontsize=6)
+            plt.yticks(range(n_clusters), range(n_clusters), fontsize=fontsize)
         else:
-            plt.yticks(range(n_clusters), ["-"] * n_clusters)
+            plt.yticks(range(n_clusters), ["-"] * n_clusters, fontize=fontsize)
 
         fig.tight_layout()
         if (filename is not None):
@@ -1384,16 +1394,21 @@ def plot_contour(n_clusters, centroids, xlabels=None, plot_before=False,
     plt.colorbar(cset)
     # Also cmap="viridis" or cmap=plt.cm.jet look nice
 
-    plt.xlabel('samples')
+    if (mode == 0) or (mode == 1):
+        plt.xlabel('samples')
+    else:
+        plt.xlabel('genes')
     plt.ylabel('clusters')
 
     if (xlabels is not None):
-        plt.xticks(range(centroids.shape[1]), xlabels, fontsize=8, rotation=25)
+        plt.xticks(range(centroids.shape[1]), xlabels, fontsize=fontsize,
+                   rotation=25)
     else:
-        plt.xticks(range(centroids.shape[1]), ["|"] * centroids.shape[1])
+        plt.xticks(range(centroids.shape[1]),
+                   range(1, centroids.shape[1]+1), fontsize=fontsize)
 
     if (n_clusters <= 100):
-        plt.yticks(range(n_clusters), best_sol, fontsize=6)
+        plt.yticks(range(n_clusters), best_sol, fontsize=fontsize)
     else:
         plt.yticks(range(n_clusters), ["-"] * n_clusters)
 
