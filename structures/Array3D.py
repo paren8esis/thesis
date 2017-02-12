@@ -168,7 +168,7 @@ class Array3D():
         array3D : ndarray
             The final 3D array structure.
         indices3D : ndarray
-            The gene labelsof the final 3D array structure.
+            The gene labels of the final 3D array structure.
         """
         self.metric = metric
         self.method = method
